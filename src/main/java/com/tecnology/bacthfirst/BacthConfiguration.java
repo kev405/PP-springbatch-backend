@@ -1,8 +1,9 @@
 package com.tecnology.bacthfirst;
 
 import com.tecnology.bacthfirst.listener.JobListener;
-import com.tecnology.bacthfirst.model.persona;
+import com.tecnology.bacthfirst.model.Persona;
 import com.tecnology.bacthfirst.processor.PersonaItemProcessor;
+//import com.tecnology.bacthfirst.repository.PersonaRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.Job;
@@ -26,6 +27,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.task.SimpleAsyncTaskExecutor;
 
 import javax.sql.DataSource;
@@ -37,6 +39,9 @@ public class BacthConfiguration {
 
     private static final Logger log = LoggerFactory.getLogger(BacthConfiguration.class);
 
+//    @Autowired
+//    PersonaRepository personaRepository;
+
     @Autowired
     public JobBuilderFactory jobBuilderFactory;
 
@@ -46,21 +51,35 @@ public class BacthConfiguration {
     @Autowired
     public StepBuilderFactory stepBuilderFactory;
 
-    private String fileInput = "sample-data.csv";
-
     @Bean
     @StepScope
-    public FlatFileItemReader<persona> reader(@Value("#{jobParameters}") Map jobParameters){
+    public FlatFileItemReader<Persona> reader(@Value("#{jobParameters}") Map jobParameters){
 
         log.info(jobParameters.get("nameFile").toString());
 
-        return new FlatFileItemReaderBuilder<persona>()
+        FlatFileItemReader<Persona> file = new FlatFileItemReaderBuilder<Persona>()
                 .name("personaItemReader")
                 .resource(new ClassPathResource(jobParameters.get("nameFile").toString()))
                 .delimited()
                 .names(new String[] {"primerNombre", "segundoNombre", "telefono"})
-                .fieldSetMapper(new BeanWrapperFieldSetMapper<persona>(){{
-                    setTargetType(persona.class);
+                .fieldSetMapper(new BeanWrapperFieldSetMapper<Persona>(){{
+                    setTargetType(Persona.class);
+                }})
+                .build();
+
+        try {
+            log.info(String.valueOf(file));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return new FlatFileItemReaderBuilder<Persona>()
+                .name("personaItemReader")
+                .resource(new FileSystemResource(".//src//main//resources//" + jobParameters.get("nameFile").toString()))
+                .delimited()
+                .names(new String[] {"primerNombre", "segundoNombre", "telefono"})
+                .fieldSetMapper(new BeanWrapperFieldSetMapper<Persona>(){{
+                    setTargetType(Persona.class);
                 }})
                 .build();
     }
@@ -71,10 +90,10 @@ public class BacthConfiguration {
     }
 
     @Bean
-    public JdbcBatchItemWriter<persona> writer(DataSource dataSource){
-        return new JdbcBatchItemWriterBuilder<persona>()
+    public JdbcBatchItemWriter<Persona> writer(DataSource dataSource){
+        return new JdbcBatchItemWriterBuilder<Persona>()
                 .itemSqlParameterSourceProvider(new BeanPropertyItemSqlParameterSourceProvider<>())
-                .sql("INSERT INTO persona (primer_nombre, segundo_nombre, telefono) VALUES (:primerNombre, :segundoNombre, :telefono)")
+                .sql("INSERT INTO persona (nombre1, nombre2, telephone) VALUES (:primerNombre, :segundoNombre, :telefono)")
                 .dataSource(dataSource)
                 .build();
     }
@@ -100,9 +119,9 @@ public class BacthConfiguration {
     }
 
     @Bean
-    public Step step1(JdbcBatchItemWriter<persona> writer){
+    public Step step1(JdbcBatchItemWriter<Persona> writer){
         return stepBuilderFactory.get("step1")
-                .<persona, persona> chunk(10)
+                .<Persona, Persona> chunk(1)
                 .reader(reader(null))
                 .processor(processor())
                 .writer(writer)

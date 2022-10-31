@@ -1,7 +1,7 @@
 package com.tecnology.bacthfirst.service;
 
 import com.tecnology.bacthfirst.dao.BacthDao;
-import com.tecnology.bacthfirst.model.persona;
+import com.tecnology.bacthfirst.model.Persona;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,7 +17,7 @@ public class BacthServiceImpl implements IBatchService{
 
     @Override
     @Transactional(readOnly = true)
-    public List<persona> findAll() {
-        return (List<persona>)  bacthDao.findAll();
+    public List<Persona> findAll() {
+        return (List<Persona>)  bacthDao.findAll();
     }
 }

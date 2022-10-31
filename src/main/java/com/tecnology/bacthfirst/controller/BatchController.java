@@ -1,7 +1,6 @@
 package com.tecnology.bacthfirst.controller;
 
-import com.tecnology.bacthfirst.model.persona;
-import com.tecnology.bacthfirst.processor.PersonaItemProcessor;
+import com.tecnology.bacthfirst.model.Persona;
 import com.tecnology.bacthfirst.service.IBatchService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,21 +13,17 @@ import org.springframework.batch.core.repository.JobExecutionAlreadyRunningExcep
 import org.springframework.batch.core.repository.JobInstanceAlreadyCompleteException;
 import org.springframework.batch.core.repository.JobRestartException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 @RestController
@@ -78,7 +73,7 @@ public class BatchController {
     }
 
     @GetMapping("/listar")
-    public List<persona> listar(){
+    public List<Persona> listar(){
         return bacthService.findAll();
     }
 

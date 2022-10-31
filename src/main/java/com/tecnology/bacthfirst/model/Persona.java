@@ -1,19 +1,24 @@
 package com.tecnology.bacthfirst.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
-public class persona {
+@Table(name = "persona")
+public class Persona {
 
+    @Column(name = "nombre1")
     private String primerNombre;
+    @Column(name = "nombre2")
     private String segundoNombre;
+
+    @Column(name = "telephone")
     private String telefono;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    public persona() {
+    public Persona() {
         super();
     }
 
@@ -26,7 +31,7 @@ public class persona {
                 '}';
     }
 
-    public persona(String primerNombre, String segundoNombre, String telefono) {
+    public Persona(String primerNombre, String segundoNombre, String telefono) {
         this.primerNombre = primerNombre;
         this.segundoNombre = segundoNombre;
         this.telefono = telefono;

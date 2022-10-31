@@ -1,7 +1,7 @@
 package com.tecnology.bacthfirst.dao;
 
-import com.tecnology.bacthfirst.model.persona;
+import com.tecnology.bacthfirst.model.Persona;
 import org.springframework.data.repository.CrudRepository;
 
-public interface BacthDao extends CrudRepository<persona, Long> {
+public interface BacthDao extends CrudRepository<Persona, Long> {
 }
