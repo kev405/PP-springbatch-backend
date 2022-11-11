@@ -33,7 +33,8 @@ public class JobListener extends JobExecutionListenerSupport {
 
             File archivo = new File( ".//src//main//resources//" + jobExecution.getJobParameters().getParameters().get("nameFile").toString());
 
-            boolean estatus = archivo.delete();;
+
+            boolean estatus = archivo.delete();
 
             if (!estatus) {
 

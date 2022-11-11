@@ -36,7 +36,7 @@ public class BatchController {
     JobLauncher procesarArchivoSubido;
 
     @Autowired
-    Job importPersonaJob;
+    Job importApprovalJob;
 
     private static final Logger log = LoggerFactory.getLogger(BatchController.class);
 
@@ -51,7 +51,7 @@ public class BatchController {
         }
 
         JobExecution jobExecution = procesarArchivoSubido
-                .run(importPersonaJob, new JobParametersBuilder()
+                .run(importApprovalJob, new JobParametersBuilder()
                         .addLong("idInicio", System.nanoTime())
                         .addString("nameFile", file.getOriginalFilename())
                         .toJobParameters());
