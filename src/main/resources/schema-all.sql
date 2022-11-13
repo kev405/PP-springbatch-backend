@@ -1,8 +1,8 @@
-DROP TABLE persona IF EXISTS;
+DROP TABLE chargeStatus IF EXISTS;
 
-CREATE TABLE persona(
+CREATE TABLE chargeStatus(
     id BIGINT IDENTITY NOT NULL PRIMARY KEY,
     primer_nombre VARCHAR(20),
     segundo_nombre VARCHAR(20),
-    telefono VARCHAR(13),
+    writeSuccess VARCHAR(13),
 )

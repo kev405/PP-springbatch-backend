@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 public class SkipStepListener implements SkipListener <ApprovalDTO, Approval>{
 
     private int quantityReadErrors;
+    private int quantityWriteErrors;
 
     private static final Logger log = LoggerFactory.getLogger(BacthConfiguration.class);
 
@@ -23,6 +24,7 @@ public class SkipStepListener implements SkipListener <ApprovalDTO, Approval>{
 
     @Override
     public void onSkipInWrite(Approval approval, Throwable throwable) {
+        counterQuantityWriteErrors();
         log.error("Error en la escritura de el dato " + approval.toString() + " El error fue: " + throwable.toString());
     }
 
@@ -34,6 +36,9 @@ public class SkipStepListener implements SkipListener <ApprovalDTO, Approval>{
     public void counterQuantityReadErrors(){
         this.quantityReadErrors = this.quantityReadErrors + 1;
     }
+    public void counterQuantityWriteErrors(){
+        this.quantityWriteErrors = this.quantityWriteErrors + 1;
+    }
 
     public int getQuantityReadErrors() {
         return quantityReadErrors;
@@ -41,5 +46,13 @@ public class SkipStepListener implements SkipListener <ApprovalDTO, Approval>{
 
     public void setQuantityReadErrors(int quantityReadErrors) {
         this.quantityReadErrors = quantityReadErrors;
+    }
+
+    public int getQuantityWriteErrors() {
+        return quantityWriteErrors;
+    }
+
+    public void setQuantityWriteErrors(int quantityWriteErrors) {
+        this.quantityWriteErrors = quantityWriteErrors;
     }
 }

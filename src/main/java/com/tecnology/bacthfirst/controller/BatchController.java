@@ -1,6 +1,6 @@
 package com.tecnology.bacthfirst.controller;
 
-import com.tecnology.bacthfirst.model.Persona;
+import com.tecnology.bacthfirst.model.ChargeStatus;
 import com.tecnology.bacthfirst.service.IBatchService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,10 +13,7 @@ import org.springframework.batch.core.repository.JobExecutionAlreadyRunningExcep
 import org.springframework.batch.core.repository.JobInstanceAlreadyCompleteException;
 import org.springframework.batch.core.repository.JobRestartException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -40,8 +37,8 @@ public class BatchController {
 
     private static final Logger log = LoggerFactory.getLogger(BatchController.class);
 
-    @PostMapping("/upload")
-    public String uploadFile(@RequestParam("file")MultipartFile file)
+    @PostMapping("/upload/{user}")
+    public String uploadFile(@PathVariable("user") String user, @RequestParam("file")MultipartFile file)
             throws IOException, JobInstanceAlreadyCompleteException, JobExecutionAlreadyRunningException, JobParametersInvalidException, JobRestartException {
 
         if (file == null || file.isEmpty()) {
@@ -54,6 +51,7 @@ public class BatchController {
                 .run(importApprovalJob, new JobParametersBuilder()
                         .addLong("idInicio", System.nanoTime())
                         .addString("nameFile", file.getOriginalFilename())
+                        .addString("user", user)
                         .toJobParameters());
 
         log.info("el archivo es: " + file.getOriginalFilename());
@@ -73,7 +71,7 @@ public class BatchController {
     }
 
     @GetMapping("/listar")
-    public List<Persona> listar(){
+    public List<ChargeStatus> listar(){
         return bacthService.findAll();
     }
 

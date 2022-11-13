@@ -6,8 +6,6 @@ import com.tecnology.bacthfirst.listener.StepItemListener;
 import com.tecnology.bacthfirst.model.Approval;
 import com.tecnology.bacthfirst.model.dto.ApprovalDTO;
 import com.tecnology.bacthfirst.processor.ApprovalItemProcessor;
-import com.tecnology.bacthfirst.processor.PersonaItemProcessor;
-//import com.tecnology.bacthfirst.repository.PersonaRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.Job;
@@ -20,7 +18,6 @@ import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.core.launch.support.SimpleJobLauncher;
 import org.springframework.batch.core.repository.JobRepository;
-import org.springframework.batch.item.WriteFailedException;
 import org.springframework.batch.item.database.BeanPropertyItemSqlParameterSourceProvider;
 import org.springframework.batch.item.database.JdbcBatchItemWriter;
 import org.springframework.batch.item.database.builder.JdbcBatchItemWriterBuilder;
@@ -32,7 +29,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.task.SimpleAsyncTaskExecutor;
 import org.springframework.dao.DuplicateKeyException;
@@ -119,7 +115,7 @@ public class BacthConfiguration {
                 .processor(processor())
                 .writer(writer)
                 .faultTolerant()
-                .skipLimit(20)
+                .skipLimit(1000)
                 .skip(DuplicateKeyException.class)
                 .skip(FlatFileParseException.class)
                 .listener(skipStepListener)
