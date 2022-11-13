@@ -1,7 +1,7 @@
 package com.tecnology.bacthfirst.controller;
 
 import com.tecnology.bacthfirst.model.ChargeStatus;
-import com.tecnology.bacthfirst.service.IBatchService;
+import com.tecnology.bacthfirst.service.IChargeStatusService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.Job;
@@ -27,7 +27,7 @@ import java.util.List;
 public class BatchController {
 
     @Autowired
-    private IBatchService bacthService;
+    private IChargeStatusService bacthService;
 
     @Autowired
     JobLauncher procesarArchivoSubido;

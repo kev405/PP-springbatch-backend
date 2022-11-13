@@ -9,6 +9,7 @@ import com.tecnology.bacthfirst.processor.ApprovalItemProcessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.Job;
+import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
@@ -64,7 +65,7 @@ public class BacthConfiguration {
                     .resource(new FileSystemResource(".//src//main//resources//" + jobParameters.get("nameFile").toString()))
                     .delimited()
                     .names(new String[] {"approvalTypeId", "simsValue", "superflexValue"})
-                    .fieldSetMapper(new BeanWrapperFieldSetMapper<ApprovalDTO>(){{
+                    .fieldSetMapper(new BeanWrapperFieldSetMapper<>() {{
                         setTargetType(ApprovalDTO.class);
                     }})
                     .build();

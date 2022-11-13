@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-public class BacthServiceImpl implements IBatchService{
+public class ChargeStatusServiceImpl implements IChargeStatusService {
 
     @Autowired
     private ChargeStatusRepository chargeStatusRepository;

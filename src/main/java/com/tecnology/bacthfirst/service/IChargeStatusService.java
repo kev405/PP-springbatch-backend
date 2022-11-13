@@ -4,7 +4,7 @@ import com.tecnology.bacthfirst.model.ChargeStatus;
 
 import java.util.List;
 
-public interface IBatchService {
+public interface IChargeStatusService {
 
     public List<ChargeStatus> findAll();
 
